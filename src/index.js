@@ -22,10 +22,10 @@ export default {
 			}
 
 			// 2) No token → redirect to Okta SSO
-			// if (!token) {
-			// 	const redirectParam = `?fromURI=${encodeURIComponent(fullUrl)}`;
-			// 	return Response.redirect(OKTA_LINK + redirectParam, 302);
-			// }
+			if (!token) {
+				const redirectParam = `?fromURI=${encodeURIComponent(fullUrl)}`;
+				return Response.redirect(OKTA_LINK + redirectParam, 302);
+			}
 
 			// 3) Verify JWT
 			try {
