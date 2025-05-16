@@ -45,9 +45,10 @@ export default {
 				response.headers.append('Set-Cookie', `user_info=${userB64}; Path=/; Secure; SameSite=Lax`);
 				return response;
 			} catch (err) {
+				return new Response(`Unauthorized – ${err.message}`, { status: 401 });
 				// invalid token → redirect to Okta again
-				const redirectParam = `?fromURI=${encodeURIComponent(fullUrl)}`;
-				return Response.redirect(OKTA_LINK + redirectParam, 302);
+				// const redirectParam = `?fromURI=${encodeURIComponent(fullUrl)}`;
+				// return Response.redirect(OKTA_LINK + redirectParam, 302);
 			}
 		}
 
