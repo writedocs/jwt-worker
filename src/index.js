@@ -10,39 +10,44 @@ const AUDIENCE = 'docs.authorium.com';
 export default {
 	/**
 	 * @param {Request} request
-	 * @param {Object}  env      — your Wrangler secrets
+	 * @param {Object}  env      – your Wrangler secrets (env.JWT_SECRET)
 	 */
 	async fetch(request, env) {
 		const url = new URL(request.url);
 
 		if (url.hostname === 'authorium-test.writedocs.io') {
-			// 1) pull token from cookie
+			// 1) try cookie
 			const cookieHeader = request.headers.get('Cookie') || '';
-			const m = cookieHeader.match(/(?:^|; )token=([^;]+)/);
-			const token = m?.[1];
+			const cookieMatch = cookieHeader.match(/(?:^|; )token=([^;]+)/);
+			let token = cookieMatch?.[1];
 
+			// 2) if no cookie, try Authorization header
 			if (!token) {
-				return new Response('Unauthorized – no token', { status: 401 });
+				const auth = request.headers.get('Authorization') || '';
+				if (auth.startsWith('Bearer ')) {
+					token = auth.slice(7).trim();
+				}
 			}
 
-			// 2) verify with the HS256 secret you stored via wrangler secret put JWT_SECRET
+			// 3) if still no token, block
+			if (!token) {
+				return new Response('Unauthorized – no token provided', { status: 401 });
+			}
+
+			// 4) verify HS256 JWT
 			try {
 				const secretUint8 = new TextEncoder().encode(env.JWT_SECRET);
-				// pass secretUint8, and optionally verify issuer/audience
 				await jwtVerify(token, secretUint8, {
 					issuer: ISSUER,
 					audience: AUDIENCE,
 				});
-				// if you want the decoded payload:
-				// const { payload } = await jwtVerify(token, secretUint8, { issuer: ISSUER, audience: AUDIENCE });
-				// console.log('✅ verified, payload:', payload);
+				// → valid, fall through to fetch below
 			} catch (err) {
-				// log the real error in the body so you can tail your Worker logs
 				return new Response(`Unauthorized – ${err.message}`, { status: 401 });
 			}
 		}
 
-		// 3) proxy through to your static files
+		// 5) proxy to static assets (or another origin)
 		return fetch(request);
 	},
 };
