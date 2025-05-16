@@ -9,7 +9,7 @@ export default {
 		const url = new URL(request.url);
 		const host = url.hostname;
 		const fullUrl = url.toString();
-		const oktaLink = env.OKTA_EMBED_LINK;
+		const oktaLink = 'https://trial-4477322.okta.com/home/trial-4477322_writedocstest_1/0oar0k16veq7AP6Gz697/alnr0k8u2zpzsKvof697';
 
 		// 1) If it’s your docs host but no valid token → redirect to Okta
 		if (host === 'authorium-test.writedocs.io') {
