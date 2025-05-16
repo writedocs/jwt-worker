@@ -16,7 +16,7 @@ export default {
 		const url = new URL(request.url);
 
 		// Protect everything under docs.authorium.com
-		if (url.hostname === 'docs.authorium.com') {
+		if (url.hostname === 'authorium-test.writedocs.io') {
 			// 1. grab the token from the "token" cookie
 			const cookieHeader = request.headers.get('Cookie') || '';
 			const m = cookieHeader.match(/(?:^|; )token=([^;]+)/);
