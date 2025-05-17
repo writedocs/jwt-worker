@@ -1,9 +1,9 @@
 // worker.js
 import { jwtVerify } from 'jose';
 
-const ISSUER = 'https://login.authorium.com/';
+const ISSUER = 'https://app.authorium.com';
 const AUDIENCE = 'docs.authorium.com';
-const DOCS_HOST = 'authorium-test.writedocs.io';
+const DOCS_HOST = 'authorium.writedocs.io';
 const OKTA_LINK = 'https://trial-4477322.okta.com/home/trial-4477322_writedocstest_1/0oar0k16veq7AP6Gz697/alnr0k8u2zpzsKvof697';
 
 export default {
