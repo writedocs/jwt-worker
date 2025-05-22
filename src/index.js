@@ -3,7 +3,7 @@ import { jwtVerify } from 'jose';
 
 const ISSUER = 'https://app.authorium.com';
 const AUDIENCE = 'docs.authorium.com';
-const DOCS_HOST = 'docs.authorium.com';
+const PROTECTED_HOSTS = new Set(['docs.authorium.com', 'authorium.writedocs.io']);
 const OKTA_LINK = 'https://authorium.okta.com/home/authorium_authoriumdocs_1/0oafoc1fp1tjmCraq4h7/alnfoc2pvn29cVcFU4h7';
 
 export default {
@@ -12,7 +12,7 @@ export default {
 		const host = url.hostname;
 		const fullUrl = url.toString();
 
-		if (host === DOCS_HOST) {
+		if (PROTECTED_HOSTS.has(host)) {
 			// 1) Extract token from cookie or Authorization header
 			const ck = request.headers.get('Cookie') || '';
 			let token = ck.match(/(?:^|; )token=([^;]+)/)?.[1];
