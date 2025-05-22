@@ -3,8 +3,8 @@ import { jwtVerify } from 'jose';
 
 const ISSUER = 'https://app.authorium.com';
 const AUDIENCE = 'docs.authorium.com';
-const DOCS_HOST = 'authorium.writedocs.io';
-const OKTA_LINK = 'https://trial-4477322.okta.com/home/trial-4477322_writedocstest_1/0oar0k16veq7AP6Gz697/alnr0k8u2zpzsKvof697';
+const DOCS_HOST = 'docs.authorium.com';
+const OKTA_LINK = 'https://authorium.okta.com/home/authorium_authoriumdocs_1/0oafoc1fp1tjmCraq4h7/alnfoc2pvn29cVcFU4h7';
 
 export default {
 	async fetch(request, env) {
