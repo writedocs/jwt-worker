@@ -1,5 +1,5 @@
 name = "jwt-worker"
 account_id = "8a66f4df6605cb7f1b93cb85d16a06df"
+route = "authorium-test.writedocs.io/*"
 compatibility_date = "2025-05-16"
 main = "src/index.js"
-route = "docs.authorium.com/*"
